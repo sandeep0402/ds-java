@@ -9,7 +9,7 @@ public class PowerAofB {
 	public static void main(String[] args) {
 		// Basic way with O(n)
 		int a = 4;
-		int b = 102;
+		int b = 5;
 		System.out.println(normalapproach(a, b));
 
 		// Efficient way with O(log b)
@@ -34,13 +34,11 @@ public class PowerAofB {
 		long start = System.nanoTime();
 	    while (exp != 0)
 	    {
-//		    System.out.println("base " + base);
-//		    System.out.println("exp " + exp);
-//		    System.out.println("result " + result);
+		    System.out.println("base=" + base + ", exp=" + exp +", result=" + result);
 
 	    	if ((exp & 1) == 1){
 	            result *= base;
-	           // System.out.println("sddddddddddddddddddddddddddddddddddddddddddddd");   
+			    System.out.println(">>>>>>>>>>>>>>>> base=" + base + ", exp=" + exp +", result=" + result);
 	    	}
 	        //right shifting bytes with sign 1 position
 	        //equivalent of division of 2

@@ -1,10 +1,9 @@
-package ds.arrays;
+package ds.misc;
 import java.util.*;
 
 /*
  * If a=1, b=2, c=3,....z=26. 
- * Given a string, find all possible codes that string can generate. 
- * Give a count as well as print the strings. 
+ * Given a number, find the possible codes as String and print it 
  */
 public class DigitsToCharsAndString {
 	public static void main(String[] args) {
@@ -22,9 +21,9 @@ public class DigitsToCharsAndString {
 			nums.add(number % 10);
 			number = number / 10;
 		}
-		System.out.println(nums);
+//		System.out.println(nums);
 		Collections.reverse(nums);
-		System.out.println(nums);
+//		System.out.println(nums);
 		
 		StringBuilder sb = new StringBuilder();
 		for (Integer integer : nums) {

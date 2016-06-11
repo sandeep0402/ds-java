@@ -7,8 +7,8 @@ public class SinglyLinkedListImpl<T> {
 
 	public void add(T element) {
 
-		Node<T> nd = new Node<T>();
-		nd.setValue(element);
+		Node<T> node = new Node<T>();
+		node.setValue(element);
 		System.out.println("Adding: " + element);
 		/**
 		 * check if the list is empty
@@ -16,13 +16,13 @@ public class SinglyLinkedListImpl<T> {
 		if (head == null) {
 			// since there is only one element, both head and
 			// tail points to the same object.
-			head = nd;
-			tail = nd;
+			head = node;
+			tail = node;
 		} else {
 			// set current tail next link to new node
-			tail.setNextRef(nd);
+			tail.setNextRef(node);
 			// set tail as newly created node
-			tail = nd;
+			tail = node;
 		}
 	}
 

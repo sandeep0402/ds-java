@@ -34,11 +34,23 @@ public class PrintVerticalViewofBT {
 		return null;
 	}
 
+	// Just for printing, no logic in this method
 	private void printTop(Node node) {
 		topView(node, 0);
 		Iterator iterator = ht.keySet().iterator();
 		while (iterator.hasNext()) {
-			System.out.println(ht.get(iterator.next()));
+			Integer key = (Integer) iterator.next();
+			//System.out.println(key +" = " +ht.get(key));
+			Integer newKey = key;
+			if(newKey < 0){
+				newKey = -(newKey);
+			}
+			newKey += 4;
+			newKey *= 2;
+			System.out.format("%"+newKey+"s", ht.get(key).toString());
+			System.out.println();
+			System.out.println();
+
 		}
 	}
 

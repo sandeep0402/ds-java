@@ -1,13 +1,32 @@
 package ds.misc;
+
+import java.util.Arrays;
+
 public class ReverseWordsInSentence
 {
  public static void main(String[] args)
  {
   String str = "reverse words of a sentence";
-  String result = reverseWords(str);
+  String result = reverseLatest(str);
   System.out.println(result);
  }
 
+ private static String reverseLatest(String str){
+	 String strNew = "";
+	 String[] strArray = str.split(" ");
+	 int  i =0, j = strArray.length -1;
+	 while( i < j){
+		 String temp = strArray[i];
+		 strArray[i] = strArray[j];
+		 strArray[j] =  temp;
+		 j--;
+		 i++;
+	 }
+	 for (int j2 = 0; j2 < strArray.length; j2++) {
+		 strNew += " " + strArray[j2];
+	}
+	 return strNew;
+ }
  private static String reverseWordsNew(String str)
  {
 	 String strNew = "";

@@ -4,10 +4,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-public class BinaryTree {
+public class TraversalsOfBST {
 	Node root;
 
-	public BinaryTree() {
+	public TraversalsOfBST() {
 		root = null;
 	}
 
@@ -67,8 +67,10 @@ public class BinaryTree {
 	}
 
 	/*
-	 * Level order traversal - Recursive version Root, Root's Children from Left
-	 * to Right, Root's Children's Children from Left to Right and so on
+	 * Level order traversal - Recursive version Root, 
+	 * Root's Children from Left to Right, 
+	 * Root's Children's Children from Left to Right 
+	 * and so on
 	 */
 	public void levelOrderBottomToTopTraversal(Node root, StringBuffer sbr) {
 		if (root == null)
@@ -199,7 +201,7 @@ public class BinaryTree {
 	}
 
 	public static void main(String[] args) {
-		BinaryTree bt = new BinaryTree();
+		TraversalsOfBST bt = new TraversalsOfBST();
 		Node root = bt.createTree();
 		StringBuffer sbr = new StringBuffer();
 		bt.preorderTraversal(root, sbr);

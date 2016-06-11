@@ -1,13 +1,23 @@
 package ds.arrays;
+
+import java.util.Arrays;
+
+/*
+ * Rotate an array k times to its left.
+ * Solution: Reverse the whole array, Then reverse the part 0 to n-k and n-k+1 to n.
+ */
 public class RotateKTimes
 {
  public static void main(String[] args)
  {
-  int[] array =
-  { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-  printArray(array);
-  rotateLeftKTimes(array, 7);
-  printArray(array);
+  int[] array =  { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+  int rotation = 7;   
+  System.out.println("rotation requested = "+ rotation);
+  rotation =  rotation % array.length;
+  System.out.println("actual rotation required = " +rotation);
+  System.out.println(Arrays.toString(array));
+  rotateLeftKTimes(array, rotation);
+  System.out.println(Arrays.toString(array));
  }
 
  private static void rotateLeftKTimes(int[] array, int k)
@@ -27,14 +37,6 @@ public class RotateKTimes
    i++;
    j--;
   }
- }
-
- private static void printArray(int[] array)
- {
-  for (int i : array)
-   System.out.print(i + ",");
-  System.out.println();
-
  }
 
 }
