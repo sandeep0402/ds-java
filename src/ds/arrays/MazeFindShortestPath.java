@@ -2,7 +2,7 @@ package ds.arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ShortestPathInMaze {
+public class MazeFindShortestPath {
 	public static void main(String[] args) {
 		boolean[][] maze = new boolean[10][10];
 		makeRandomMaze(maze);
