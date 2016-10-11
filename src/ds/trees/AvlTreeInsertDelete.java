@@ -1,7 +1,5 @@
 package ds.trees;
 
-import ds.trees.AvlTreeInsertion.Node;
-
 // http://www.geeksforgeeks.org/avl-tree-set-2-deletion/
 class AvlTreeInsertDelete {
  
@@ -15,45 +13,43 @@ class AvlTreeInsertDelete {
         return N.height;
     }
  
-    // A utility function to get maximum of two integers
-    int max(int a, int b) {
-        return (a > b) ? a : b;
-    }
- 
+	private void updateHeight(Node node) {
+		node.height = Math.max(height(node.left), height(node.right)) + 1;
+	}
+	
     // A utility function to right rotate subtree rooted with y
     // See the diagram given above.
-    Node rightRotate(Node y) {
-        Node x = y.left;
-        Node T2 = x.right;
+    Node rightRotate(Node node) {
+        Node leftChild = node.left;
+        Node subTree = leftChild.right;
  
         // Perform rotation
-        x.right = y;
-        y.left = T2;
+        leftChild.right = node;
+        node.left = subTree;
  
         // Update heights
-        y.height = max(height(y.left), height(y.right)) + 1;
-        x.height = max(height(x.left), height(x.right)) + 1;
+        updateHeight(node);
+        updateHeight(leftChild);
  
         // Return new root
-        return x;
+        return leftChild;
     }
  
     // A utility function to left rotate subtree rooted with x
     // See the diagram given above.
-    Node leftRotate(Node x) {
-        Node y = x.right;
-        Node T2 = y.left;
+    Node leftRotate(Node node) {
+        Node rightChild = node.right;
+        Node subTree = rightChild.left;
  
         // Perform rotation
-        y.left = x;
-        x.right = T2;
+        rightChild.left = node;
+        node.right = subTree;
  
-        //  Update heights
-        x.height = max(height(x.left), height(x.right)) + 1;
-        y.height = max(height(y.left), height(y.right)) + 1;
+        updateHeight(node);
+        updateHeight(rightChild);
  
         // Return new root
-        return y;
+        return rightChild;
     }
  
     // Get Balance factor of node N
@@ -66,7 +62,7 @@ class AvlTreeInsertDelete {
  
     Node insert(Node node, int key) {
  
-        /* 1.  Perform the normal BST rotation */
+        /* 1.  Perform the normal BST insertion */
         if (node == null) {
             return (new Node(key));
         }
@@ -77,8 +73,7 @@ class AvlTreeInsertDelete {
             node.right = insert(node.right, key);
         }
  
-        /* 2. Update height of this ancestor node */
-        node.height = max(height(node.left), height(node.right)) + 1;
+        updateHeight(node);
  
         /* 3. Get the balance factor of this ancestor node to check whether
          this node became unbalanced */
@@ -125,96 +120,121 @@ class AvlTreeInsertDelete {
         return current;
     }
  
-    Node deleteNode(Node root, int key) {
+    Node deleteNode(Node node, int key) {
  
         // STEP 1: PERFORM STANDARD BST DELETE
-        if (root == null) {
-            return root;
+        if (node == null) {
+            return node;
         }
  
         // If the key to be deleted is smaller than the root's key,
         // then it lies in left subtree      
-        if (key < root.key) {
-            root.left = deleteNode(root.left, key);
-        } 
- 
-        // If the key to be deleted is greater than the root's key,
-        // then it lies in right subtree
-        else if (key > root.key) {
-            root.right = deleteNode(root.right, key);
+        if (key < node.key) {
+            node.left = deleteNode(node.left, key);
+        } else if (key > node.key) {
+            // If the key to be deleted is greater than the root's key,
+            // then it lies in right subtree
+        	node.right = deleteNode(node.right, key);
         } 
          
         // if key is same as root's key, then this is the node
         // to be deleted
         else {
- 
-            // node with only one child or no child
-            if ((root.left == null) || (root.right == null)) {
-                Node temp = null;
-                if (temp == root.left) {
-                    temp = root.right;
-                } else {
-                    temp = root.left;
-                }
- 
-                // No child case
-                if (temp == null) {
-                    temp = root;
-                    root = null;
-                } else // One child case
-                {
-                    root = temp; // Copy the contents of the non-empty child
-                }
-            } else {
- 
-                // node with two children: Get the inorder successor (smallest
-                // in the right subtree)
-                Node temp = minValueNode(root.right);
- 
-                // Copy the inorder successor's data to this node
-                root.key = temp.key;
+    		//Case 1: if node to be deleted has no children
+    		if(node.left==null && node.right==null){
+    			node = null;
+    		}
+    		//Case 2 : if node to be deleted has only one child
+    		// if right is null then set left as value
+    		else if(node.right == null){
+    			node = node.left;
+    		}
+    		//Case 2 : if node to be deleted has only one child
+    		// if left is null then set right as value		
+    		else if(node.left == null){
+    			node = node.right;
+    		}
+    		//Case 3 : if node to be deleted has both children
+    		// find a minimum value in the right subtree;
+    		// replace value of the node to be removed with found minimum. Now, right subtree contains a duplicate!
+    		// apply remove to the right subtree to remove a duplicate.
+    		else if(node.left!=null && node.right!=null){
+    			
+    			//now we have found the minimum element in the right sub tree
+    			Node successor	 = minValueNode(node);
+    			 // Copy the inorder successor's data to this node
+                node.key = successor.key;
  
                 // Delete the inorder successor
-                root.right = deleteNode(root.right, temp.key);
-            }
+                node.right = deleteNode(node.right, successor.key);
+
+    		}		
+//            // node with only one child or no child
+//            if ((node.left == null) || (node.right == null)) {
+//                Node temp = null;
+//                if (temp == node.left) {
+//                    temp = node.right;
+//                } else if (temp == node.right){
+//                    temp = node.left;
+//                }
+// 
+//                // No child case
+//                if (temp == null) {
+//                    temp = node;
+//                    node = null;
+//                } else // One child case
+//                {
+//                    node = temp; // Copy the contents of the non-empty child
+//                }
+//            } else {
+// 
+//                // node with two children: Get the inorder successor (smallest
+//                // in the right subtree)
+//                Node temp = minValueNode(node.right);
+// 
+//                // Copy the inorder successor's data to this node
+//                node.key = temp.key;
+// 
+//                // Delete the inorder successor
+//                node.right = deleteNode(node.right, temp.key);
+//            }
         }
  
         // If the tree had only one node then return
-        if (root == null) {
-            return root;
+        if (node == null) {
+            return node;
         }
  
-        // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
-        root.height = max(height(root.left), height(root.right)) + 1;
+        updateHeight(node);
  
         // STEP 3: GET THE BALANCE FACTOR OF THIS NODE (to check whether
         //  this node became unbalanced)
-        int balance = getBalance(root);
+        int balance = getBalance(node);
  
         // If this node becomes unbalanced, then there are 4 cases
         // Left Left Case
-        if (balance > 1 && getBalance(root.left) >= 0) {
-            return rightRotate(root);
+        if (balance > 1 && getBalance(node.left) >= 0) {
+            return rightRotate(node);
         }
  
         // Left Right Case
-        if (balance > 1 && getBalance(root.left) < 0) {
-            root.left = leftRotate(root.left);
-            return rightRotate(root);
+        if (balance > 1 && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
         }
  
         // Right Right Case
-        if (balance < -1 && getBalance(root.right) <= 0) {
-            return leftRotate(root);
+        if (balance < -1 && getBalance(node.right) <= 0) {
+            return leftRotate(node);
         }
  
         // Right Left Case
-        if (balance < -1 && getBalance(root.right) > 0) {
-            root.right = rightRotate(root.right);
-            return leftRotate(root);
+        if (balance < -1 && getBalance(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
         }
  
-        return root;
+        return node;
     }
  
     // A utility function to print preorder traversal of the tree.
@@ -270,7 +290,7 @@ class AvlTreeInsertDelete {
     }
     
 class Node {
-	int key, height;
+	int key, height = 0;
 	Node left, right;
 	
 	Node(int d) {

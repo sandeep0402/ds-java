@@ -48,17 +48,17 @@ public class CrudForBST {
 		//if i am here that means we have found the node
 		//Case 1: if node to be deleted has no children
 		if(current.left==null && current.right==null){
-			resetNode(parent, current, isLeftChild, null);
+			replaceCurrentNode(parent, current, isLeftChild, null);
 		}
 		//Case 2 : if node to be deleted has only one child
 		// if right is null then set left as value
 		else if(current.right == null){
-			resetNode(parent, current, isLeftChild, current.left);
+			replaceCurrentNode(parent, current, isLeftChild, current.left);
 		}
 		//Case 2 : if node to be deleted has only one child
 		// if left is null then set right as value		
 		else if(current.left == null){
-			resetNode(parent, current, isLeftChild, current.right);
+			replaceCurrentNode(parent, current, isLeftChild, current.right);
 		}
 		//Case 3 : if node to be deleted has both children
 		// find a minimum value in the right subtree;
@@ -68,14 +68,14 @@ public class CrudForBST {
 			
 			//now we have found the minimum element in the right sub tree
 			Node successor	 = getSuccessor(current);
-			resetNode(parent, current, isLeftChild, successor);		
+			replaceCurrentNode(parent, current, isLeftChild, successor);		
 			successor.left = current.left;
 
 		}		
 		return true;		
 	}
 
-	private void resetNode(Node parent, Node current, boolean isLeftChild,
+	private void replaceCurrentNode(Node parent, Node current, boolean isLeftChild,
 			Node successor) {
 		if(root == current){
 			root = successor;
