@@ -4,8 +4,21 @@ public class LargestSumSubArray
  public static void main(String[] args)
  {
   int[] arr = {-2, -5, 6, -2, -3, 1, 5, -6};
-  maxSumSubArrayNew(arr);
- }
+  maxSubArraySum(arr);
+}
+public static int maxSubArraySum(int a[])
+{
+	int maxSum = 0, sum = 0;
+	for (int i = 0; i < a.length; i++)
+	{
+		sum = sum + a[i];
+		if (sum < 0)
+			sum = 0;
+		if (maxSum < sum)
+			maxSum = sum;
+	}
+	return maxSum;
+}	
   private static void maxSumSubArrayNew(int[] array){
 	 int maxsum = Integer.MIN_VALUE;
 	 int maxl = -1;
