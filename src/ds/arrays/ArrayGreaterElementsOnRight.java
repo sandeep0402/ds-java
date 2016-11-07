@@ -19,4 +19,27 @@ public class ArrayGreaterElementsOnRight {
 		System.out.println(list);
 	}
 	
+	// Without spaces
+    static int[] shiftGreaterOnRight(int a[], int item)
+    {
+        int lastIndex = a.length ;
+        for(int i = 0; i< a.length || i >= lastIndex-1 ; i++){
+            if( i >= lastIndex-1)
+                break;
+        	if(a[i] > item){
+        		for (int j = lastIndex -1; j>=0; j--){
+        			if(a[j] <= item){
+        				int temp = a[j];
+        				a[j] = a[i];
+        				a[i] = temp;
+        				lastIndex = j;	
+        System.out.println("state Array is " + Arrays.toString(a));
+        				
+        				break;
+        			}
+        		}
+        	}
+        }
+        return a;
+    }	
 }
