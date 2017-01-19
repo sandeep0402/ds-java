@@ -14,7 +14,9 @@ public class StringMatcherInSeq {
                             if (currentArrayInd >= array.length) {
                                     return Boolean.TRUE;
                             }
-                        }else{
+                        }
+                        // Remove this else block in case of distributed string seach but in same sequence of letters
+                        else{
                             // Reset the counter if modified and compare current element again
                             if(currentArrayInd > 0){
                                 currentArrayInd = 0;
