@@ -2,25 +2,39 @@ package ds.trees.advanced;
 
 /*
     Find k-th smallest element in BST 
+    Use inorder traversal
     http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/
 */
 public class FindKthSmallestElementBST {
+        int index = 0;
+        private void approach1(Node node, int kthIndex){
+        	if (node == null) {
+                    return;
+                }
+                approach1(node.left, kthIndex);
+                if (kthIndex == ++index) {
+                    process(node); 
+                    return;
+                }
+                System.out.println("node :"+node.data +", level="+index); 
+                approach1(node.right, kthIndex);
+        }
 
-        private int printLeftView(Node node, int previousLevel, int kthIndex){
+        private int approach2(Node node, int previousLevel, int kthIndex){
         	if (node == null) {
                     return previousLevel;
                 }
-                int leftNodeLevel = printLeftView(node.left, previousLevel, kthIndex);
+                int leftNodeLevel = approach2(node.left, previousLevel, kthIndex);
                 int nodeLevel = leftNodeLevel + 1;
                 if (kthIndex == nodeLevel) {
                     process(node);                    
                 }
-                //System.out.println("node :"+node.data +", level="+nodeLevel); 
-                int rightNodeLevel = printLeftView(node.right, nodeLevel, kthIndex);
+                int rightNodeLevel = approach2(node.right, nodeLevel, kthIndex);
+                System.out.println("node :"+node.data +", level="+nodeLevel); 
+
                 // Return the leve which is heigher from node itself or right sub tree 
 		return nodeLevel > rightNodeLevel ? nodeLevel : rightNodeLevel;
 	}
-
 	private void process(Node node) {           
                 System.out.println(node.data);
 	}
@@ -34,10 +48,10 @@ public class FindKthSmallestElementBST {
                 root.left.right.left= new Node(10);                   
                 root.left.right.right= new Node(14);                   
 		FindKthSmallestElementBST p = new FindKthSmallestElementBST();
-                System.out.println("left view :"); 
                 //if k = 3, then output should be 10, and if k = 5, then output should be 14.
-                int k = 1;
-                p.printLeftView(root, 0, 5);
+                int k = 3;
+                System.out.println(k+"th element is :"); 
+                p.approach1(root, k);
 	}
 	
 	static class Node {
