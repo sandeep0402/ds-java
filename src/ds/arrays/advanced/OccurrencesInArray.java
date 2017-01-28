@@ -33,13 +33,13 @@ public class OccurrencesInArray {
 
     public int findFirstOccurrence(int[] arr, int num, int start, int end) {
         if (start <= end ) {
-            int midIndex = (start + end) / 2;
-            if (arr[midIndex] == num && (midIndex == 0 || (arr[midIndex - 1] < num))) {
-                return midIndex;
-            } else if (num > arr[midIndex]) {
-                return findFirstOccurrence(arr, num, midIndex + 1, end);
+            int mid = (start + end) / 2;
+            if (arr[mid] == num && (mid == 0 || (arr[mid - 1] < num))) {
+                return mid;
+            } else if (num > arr[mid]) {
+                return findFirstOccurrence(arr, num, mid + 1, end);
             } else {
-                return findFirstOccurrence(arr, num, start, midIndex - 1);
+                return findFirstOccurrence(arr, num, start, mid - 1);
 
             }
         } else {
@@ -52,10 +52,10 @@ public class OccurrencesInArray {
             int mid = (start + end) / 2;
             if (arr[mid] == num && (mid == arr.length - 1 || arr[mid + 1] > num)) {
                 return mid;
-            } else if (num < arr[mid]) {
-                return findLastOccurrence(arr, num, start, mid - 1);
-            } else {
+            } else if (num >= arr[mid]) {
                 return findLastOccurrence(arr, num, mid + 1, end);
+            } else {
+                return findLastOccurrence(arr, num, start, mid - 1);
             }
         } else {
             return -1;
