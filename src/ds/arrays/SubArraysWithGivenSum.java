@@ -1,34 +1,60 @@
 package ds.arrays;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SubArraysWithGivenSum {
 
-	public void findRequiredSumSubArray(int[] array, int requiredSum) {
-		int start = 0;
-		int sum = 0;
-		int length = array.length;
+    // Function to print subarray with sum as given sum
+    public static void findGivenSumSubarray(int arr[], int givenSum) {
+        int sum = 0;
+        int sStart = 0, sEnd = Integer.MAX_VALUE - 1;  // Start & end position of the shortest sub-array
+        int lStart = Integer.MAX_VALUE - 1, lEnd = 0;  // Start & end position of the longest  sub-array
 
-		for (int i = 0; i < length; i++) {
-			sum = 0;
-			start = i;
-			for (int j = i; j < length; j++) {
-				if (sum + array[j] > requiredSum) {
-					break;
-				} else if (sum + array[j] < requiredSum) {
-					sum += array[j];
-				} else {
-					int[] subArr = Arrays.copyOfRange(array, start, j + 1);
-					System.out.println(Arrays.toString(subArr));
-					start = j;
-					sum = array[j];
-				}
-			}
-		}
-	}
-	
-	public static void main(String[] args) {
-		int[] array = { 6, 2, 3, 10, 5, 9, 12 };
-		int requiredSum = 21;
-		new SubArraysWithGivenSum().findRequiredSumSubArray(array, requiredSum);
-	}	
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+
+        ArrayList<Integer> initialIndex = new ArrayList<>();
+        initialIndex.add(-1);
+        map.put(0, initialIndex);
+
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+            ArrayList<Integer>  indexes = map.get(sum - givenSum);
+            if (indexes != null) {
+                for (int index : indexes) {
+                    System.out.println("sum ="+sum+" sum-givenSum=" + (sum - givenSum) +" From #" + (index + 1) + " to #" + i);
+                }
+                if (i - indexes.get(indexes.size() - 1) < (sEnd - sStart + 1)) {
+                    sStart = indexes.get(indexes.size() - 1) + 1;
+                    sEnd = i;
+                }
+                if (i - indexes.get(0) > (lEnd - lStart + 1)) {
+                    lStart = indexes.get(0) + 1;
+                    lEnd = i;
+                }
+            }
+            indexes = map.get(sum);
+            if (indexes == null) {
+                indexes = new ArrayList<>();
+            }
+            indexes.add(i);
+            map.put(sum, indexes);
+            System.out.println(map);
+        }
+
+        if(sStart == 0 && lEnd == 0){
+            System.out.println("No sub array present with given sum");
+        }else{
+            System.out.println("Shortest sub-arry: Length = " + (sEnd - sStart + 1) + ", [" + sStart + " - " + sEnd + "]");
+            System.out.println("Longest  sub-arry: Length = " + (lEnd - lStart + 1) + ", [" + lStart + " - " + lEnd + "]");
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] array =  {10, 2, -2, -20, 10};
+        int requiredSum = -10;
+        System.out.println(Arrays.toString(array) + ", requiredSum=" + requiredSum);
+        new SubArraysWithGivenSum().findGivenSumSubarray(array, requiredSum);
+    }
 }
