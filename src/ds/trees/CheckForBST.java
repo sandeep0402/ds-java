@@ -23,30 +23,35 @@ public class CheckForBST {
 		  d.left=g;
 		  d.right=h;
 		  g.right=i;
-		System.out.println(isBst(a, Integer.MIN_VALUE, Integer.MAX_VALUE));
+		System.out.println(isBst1(a, Integer.MIN_VALUE, Integer.MAX_VALUE));
 	}
-	
-	public boolean isBst(Node node, int min, int max){
-		boolean nodeOk = true;
-		boolean rightOk = true;
-		boolean  leftOk = true;
+
+	public boolean isBst1(Node node, int min, int max){
 		if( node == null ){
 			return true;
 		}
-		if(node.value >= min && node.value <= max){
-			nodeOk = true;
-		}else{
-			nodeOk = false;
-		}
-		if(node.right != null){
-			rightOk = isBst(node.right, node.value, max);
-		}
-		if(node.left != null){
-			leftOk = isBst(node.left, min, node.value);
-		}
-		return nodeOk && rightOk && leftOk;
+		return (min <= node.value && max >= node.value) 
+                        && isBst1(node.left, min, node.value)
+                        && isBst1(node.right, node.value, max);
 	}
-	class Node {
+        
+	// method 2: do inOrder and check if it is in ascending order
+	// doesnt work in case of duplicates
+        public static Node prevNode = null;
+	public boolean isBST2(Node node) {
+		if (node != null) {
+			if (!isBST2(node.left))
+				return false;
+			if (prevNode != null && prevNode.value >= node.value) {
+				return false;
+			}
+			prevNode = node;
+			return isBST2(node.right);
+		}
+		return true;
+	}
+        
+        class Node {
 		Node left;
 		Node right;
 		int value;
