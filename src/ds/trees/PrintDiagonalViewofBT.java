@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class PrintDiagonalViewofBT {
+	//https://www.techiedelight.com/print-diagonal-traversal-binary-tree/
 	public void diagonalPrint(Node root)
 	{
 		//add your code here.
