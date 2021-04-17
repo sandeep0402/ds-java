@@ -3,10 +3,11 @@ package ds.trees;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class PrintVerticalViewofBT {
-	private static TreeMap<Integer, List> ht = new TreeMap<Integer, List>();
+	private static Map<Integer, List> ht = new LinkedHashMap<Integer, List>();
 
 	private Node topView(Node root, int level) {
 		// 1. If node is null, return and stop recursion
