@@ -4,14 +4,14 @@ import java.util.Arrays;
 
 /*
  * Rotate an array k times to its left.
- * Solution: Reverse the whole array, Then reverse the part 0 to n-k and n-k+1 to n.
+ * Solution: Reverse the array's n-k elements and then last k elements. Reverse the whole array.
  */
 public class RotateKTimes
 {
  public static void main(String[] args)
  {
-  int[] array =  { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-  int rotation = 7;   
+  int[] array =  { 1, 2, 3, 4, 5, 6, 7 };
+  int rotation = 3;
   System.out.println("rotation requested = "+ rotation);
   rotation =  rotation % array.length;
   System.out.println("actual rotation required = " +rotation);
@@ -22,9 +22,15 @@ public class RotateKTimes
 
  private static void rotateLeftKTimes(int[] array, int k)
  {
-  reverse(array, 0, array.length - 1);
-  reverse(array, 0, array.length - k - 1);
-  reverse(array, array.length - k, array.length - 1);
+  int n = array.length;
+  // Reverse the first `n-k` elements
+  reverse(array, 0, n-k-1 );
+  System.out.println(Arrays.toString(array));
+  // Reverse the last `k` elements
+  reverse(array, n - k, n-1);
+  System.out.println(Arrays.toString(array));
+  // Reverse the whole array
+  reverse(array, 0, n-1);
  }
 
  private static void reverse(int[] array, int i, int j)
