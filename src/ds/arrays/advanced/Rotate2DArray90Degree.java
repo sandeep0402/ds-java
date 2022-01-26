@@ -81,21 +81,48 @@ class Rotate2DArray90Degree {
 				}
 			}
 			//System.out.println(Arrays.toString(arr));
-			rotateAndPrint(arr);
+			optimizeRotateApproach(arr);
 			System.out.println();
 		}
 	}
 
-	public static void rotateAndPrint(int[][] arr) {
-		int size = arr.length;
-		int a = 0, b = 0;
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				a = Math.abs((size-1) - j);
-				b = i;
-				//System.out.println("Printing arr["+a+"]["+b+"]="+arr[a][b]);
-				System.out.print(arr[a][b] + " ");
-			}
-		}
-	}
+    public void optimizeRotateApproach(int[][] a){
+        int size = a.length-1;
+        for(int i=0; i< a.length/2; i++){
+            for(int j=i; j<size-i; j++){
+                int temp = a[i][j];
+                a[i][j] = a[size-j][i];
+                a[size-j][i] = a[size-i][size-j];
+                a[size-i][size-j] = a[j][size-i];
+                a[j][size-i] = temp;
+            }
+        }
+    }
+    
+    public void rotateApproach1(int[][] a){
+        transpose(a);
+        reverse(a);
+    }
+    
+    public void transpose(int[][] a){
+        for(int i=0; i< a.length; i++){
+            for(int j=i; j<a[i].length; j++){
+                int temp = a[i][j];
+                a[i][j] = a[j][i];
+                a[j][i] = temp;
+            }
+        }
+    }
+    
+    public void reverse(int[][] a){
+        int size = a[0].length;
+        for(int i=0; i< a.length; i++){
+            for(int j=0; j< size/2; j++){
+                int temp = a[i][j];
+                a[i][j] = a[i][size-j-1];
+                a[i][size-j-1] = temp;
+            }
+        }        
+    }
+
 }
