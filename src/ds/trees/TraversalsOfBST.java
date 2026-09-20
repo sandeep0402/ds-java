@@ -67,33 +67,43 @@ public class TraversalsOfBST {
 	}
 
 	/*
-	 * Level order traversal - Recursive version Root, 
+	 * https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
+	 * Level order traversal - Recursive Bottom to Top, 
 	 * Root's Children from Left to Right, 
 	 * Root's Children's Children from Left to Right 
 	 * and so on
 	 */
 	public void levelOrderBottomToTopTraversal(Node root, StringBuffer sbr) {
-		if (root == null)
-			return;
-		LinkedList<Node> queue = new LinkedList<Node>();
-		Stack<Node> stack = new Stack<Node>();
-		LinkedList<Node> queueOrder = new LinkedList<Node>();
+        if (root == null) {
+            return result;
+        }
+		LinkedList<List<Integer>> result = new LinkedList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
 
-		queue.add(root);
-		while (!queue.isEmpty()) {
-			Node node = queue.poll();
-			stack.push(node);
-			queueOrder.add(node);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> level = new ArrayList<>(size);
 
-			if (node.getLeftChild() != null)
-				queue.add(node.getLeftChild());
-			if (node.getRightChild() != null)
-				queue.add(node.getRightChild());
-		}
-		while (!stack.isEmpty()) {
-			processNode(stack.pop(), sbr);
-		}
-	}
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+
+                level.add(node.val);
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+
+            result.addFirst(level);
+        }
+
+        result.forEach(level -> level.forEach(val -> processNode(val, sbr)));
+    }
 
 	/*
 	 * Given a binary tree. Print its nodes in level order using array for
