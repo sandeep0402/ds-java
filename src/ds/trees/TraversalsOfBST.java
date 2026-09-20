@@ -108,23 +108,31 @@ public class TraversalsOfBST {
 	/*
 	 * Given a binary tree. Print its nodes in level order using array for
 	 * implementing queue
+	 * 1
+	 * 2 3
+	 * 4 5 6 7
 	 */
 	void levelOrderTopToBottomTraversal(Node root, StringBuffer sbr) {
-		Queue<Node> queue = new LinkedList<Node>();
-		queue.add(root);
-		while (!queue.isEmpty()) {
-			Node node = queue.poll();
-			processNode(node, sbr);
-
-			/* Enqueue left child */
-			if (node.getLeftChild() != null)
-				queue.add(node.getLeftChild());
-
-			/* Enqueue right child */
-			if (node.getRightChild() != null)
-				queue.add(node.getRightChild());
-
-		}
+	    Queue<Node> queue = new LinkedList<>();
+	    queue.add(root);
+	
+	    while (!queue.isEmpty()) {
+	        int levelSize = queue.size();
+	
+	        for (int i = 0; i < levelSize; i++) {
+	            Node node = queue.poll();
+	            processNode(node, sbr);
+	
+	            if (node.getLeftChild() != null)
+	                queue.add(node.getLeftChild());
+	
+	            if (node.getRightChild() != null)
+	                queue.add(node.getRightChild());
+	        }
+	
+	        // level completed
+	        sbr.append("\n");
+	    }
 	}
 
 	/*
