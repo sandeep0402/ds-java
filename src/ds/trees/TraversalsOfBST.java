@@ -136,6 +136,7 @@ public class TraversalsOfBST {
 	}
 
 	/*
+	 * https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal
 	 * Zigzag or Spiral Traversal
 	 * Algorithm
 	 * 1.  Take 2 Stack, one for current level and one for next level.
@@ -148,38 +149,49 @@ public class TraversalsOfBST {
      * Also, this is the time when we need to alter our reading style for childrens that is it need to be
      * read in left - right fashion.
 	 */
-	private void zigZagTraverse(Node rootNode, StringBuffer sbr) {
-		if (rootNode == null) {
-			return;
-		}
-		Stack<Node> currentLevelStack = new Stack<Node>();
-		Stack<Node> nextLevelStack = new Stack<Node>();
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root, StringBuffer sbr) {
 
-		boolean isLeftRightReading = true;
-		currentLevelStack.add(rootNode);
+        List<List<Integer>> result = new ArrayList<>();
 
-		while (!currentLevelStack.isEmpty()) {
-			Node node = currentLevelStack.pop();
-			processNode(node, sbr);
+        if (root == null)
+            return result;
 
-			if (isLeftRightReading) {
-				if (node.getLeftChild() != null)
-					nextLevelStack.push(node.getLeftChild());
-				if (node.getRightChild() != null)
-					nextLevelStack.push(node.getRightChild());
-			} else {
-				if (node.getRightChild() != null)
-					nextLevelStack.push(node.getRightChild());
-				if (node.getLeftChild() != null)
-					nextLevelStack.push(node.getLeftChild());
-			}
-			if (currentLevelStack.isEmpty()) {
-				isLeftRightReading = !isLeftRightReading;
-				currentLevelStack = nextLevelStack;
-				nextLevelStack = new Stack<Node>();
-			}
-		}
-	}
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        boolean leftToRight = true;
+
+        while (!queue.isEmpty()) {
+
+            int size = queue.size();
+            List<Integer> level = new LinkedList<>();
+
+            for (int i = 0; i < size; i++) {
+
+                TreeNode node = queue.poll();
+
+                if (leftToRight)
+                    level.addLast(node.val);
+                else
+                    level.addFirst(node.val);
+
+                if (node.left != null)
+                    queue.offer(node.left);
+
+                if (node.right != null)
+                    queue.offer(node.right);
+            }
+
+            result.add(level);
+
+            leftToRight = !leftToRight;
+        }
+
+        result.forEach(level -> level.forEach(val -> processNode(val, sbr)));
+		// OR
+		return result;
+    }
+
 
 	 /* Given a binary tree, print its nodes in reverse level order */
     void reverseLevelOrder(Node node, StringBuffer sbr) {
