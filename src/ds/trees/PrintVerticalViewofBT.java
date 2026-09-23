@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/*
+* https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
+*/
 public class PrintVerticalViewofBT {
 	private static Map<Integer, List> ht = new LinkedHashMap<Integer, List>();
 
