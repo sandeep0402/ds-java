@@ -180,7 +180,10 @@ public class TraversalsOfBST {
     }
 
 
-	 /* Given a binary tree, print its nodes in reverse level order */
+	 /* 
+	 * Better version submitted here
+	 * https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
+	 * Given a binary tree, print its nodes in reverse level order */
     void reverseLevelOrder(Node node, StringBuffer sbr) {
         Stack<Node> stack = new Stack<Node>();
         Queue<Node> queue = new LinkedList<Node>();
