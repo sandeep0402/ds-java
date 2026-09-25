@@ -5,75 +5,89 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
+/*
+* https://www.hackerrank.com/challenges/tree-top-view/problem?isFullScreen=true
+*/ 
 public class PrintTopViewofBT {
-	private static TreeMap<Integer, Integer> ht = new TreeMap<Integer, Integer>();
 
-	private Node topView(Node root, int level) {
-		// 1. If node is null, return and stop recursion
-		if (root == null)
-			return null;
-		// System.out.println( "Checking level=" + level + ", root.data="+ root.data);
-
-		// If map already contains the level then do nothing 7 DON'T OVERRIDE
-		if (ht.containsKey(level)) {
-
-		} else {
-			// If map don't have this level as key then add it
-			// print only the first element at each level in vertical order
-			// System.out.println(root.data + " ");
-			ht.put(level, root.data);
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        int count = sc.nextInt();
+        //System.out.println("Tree size: " +count);
+        Node node = null;
+        
+        for(int i=0; i<count; i++){
+            node = insert(node, sc.nextInt());
+            //System.out.println("Tree element: " +node.val);
+        }
+        Map<Integer, Integer> map = new TreeMap<>();
+        topView(node);
+        //topView(node, 0, map);
+        //System.out.println("size: " +map.size());
+        //map.values().stream().forEach(v -> System.out.print(v.intValue()+" "));
+    }
+    
+	static void topView(Node root) {
+		if (root == null) {
+			return;
 		}
 
+    	Map<Integer, Integer> map = new TreeMap<>();
+    	Queue<NodeLevel> queue = new LinkedList<>();
 
-		// After node, process left child first with decreased levels e.g: -1,-2 etc
-		topView(root.left, level - 1);
-		// After processing left child, process right child with increased levels e.g: 1,2 etc
-		topView(root.right, level + 1);
-		return null;
-	}
+    	queue.offer(new NodeLevel(root, 0));
 
-	private void printTop(Node node) {
-		topView(node, 0);
-		Iterator iterator = ht.keySet().iterator();
-		while (iterator.hasNext()) {
-			System.out.println(ht.get(iterator.next()));
-		}
-	}
-
-	public static void main(String[] args) {
-		Node root = new Node(1);
-		root.left = new Node(2);
-		root.right = new Node(3);
-		root.left.left = new Node(4);
-		root.left.left.left = new Node(8);
-		root.left.right = new Node(5);
-		root.right.right = new Node(7);
-		root.right.left = new Node(11);
-
-		/*
-				7
-			3		
-				11
-		1
-				5
-			2
-				4
-					8
-		*/
-		PrintTopViewofBT p = new PrintTopViewofBT();
-		p.printTop(root);
-	}
+	    while (!queue.isEmpty()) {
 	
-	static class Node {
-		int data;
-		Node left;
-		Node right;
-
-		public Node(int data) {
-			this.data = data;
-			left = null;
-			right = null;
-		}
+	        NodeLevel current = queue.poll();
+	
+	        Node node = current.node;
+	        int level = current.level;
+	
+	        // First node at this horizontal distance
+	        if (!map.containsKey(level)) {
+	            map.put(level, node.val);
+	        }
+	
+	        if (node.left != null) {
+	            queue.offer(new NodeLevel(node.left, level - 1));
+	        }
+	
+	        if (node.right != null) {
+	            queue.offer(new NodeLevel(node.right, level + 1));
+	        }
+	    }
+	
+	    map.values().forEach(v -> System.out.print(v + " "));
 	}
-
+	   
+    public static Node insert(Node node, int val){
+        if(node == null){
+            return new Node(val);
+        }
+        if(val <= node.val){
+            node.left = insert(node.left, val);
+        }else{
+            node.right = insert(node.right, val);
+        }
+        return node;
+    }
+	static class NodeLevel {
+	    Node node;
+	    int level;
+	
+	    NodeLevel(Node node, int level) {
+	        this.node = node;
+	        this.level = level;
+	    }
+	}
+    static class Node {
+        int val;
+        Node right;
+        Node left;
+        Node(int val){
+            this.val = val;
+        } 
+    }
 }
