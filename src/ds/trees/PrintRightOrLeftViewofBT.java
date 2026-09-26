@@ -1,81 +1,74 @@
 package ds.trees;
+package ds.trees;
+
+import java.util.*;
+
 /*
     Print Left View of a Binary Tree
     or Print Right View of a Binary Tree
 	https://leetcode.com/problems/binary-tree-right-side-view/submissions/2153553556/
-    http://www.geeksforgeeks.org/print-left-view-binary-tree/
 */
-public class PrintRightOrLeftViewofBT {
-        static int  MAX_LEVEL = 0;
-
-        private void printLeftView(Node node){
-            MAX_LEVEL = 0;
-            printLeftView(node, 1);
-        }
-	private void printLeftView(Node node, int level) {
-		if (node == null) {
-                    return;
-                }
-		if (MAX_LEVEL < level) {
-                    process(node);
-                    MAX_LEVEL = level;
-                }
-                //System.out.println("node :"+node.data +", level="+level); 
-                printLeftView(node.left, level+1);
-                printLeftView(node.right, level+1);
-		
-	}
-
-        private void printRightView(Node node){
-            MAX_LEVEL = 0;
-            printRightView(node, 1);
-        }
-	private void printRightView(Node node, int level) {
-		if (node == null) {
-                    return;
-                }
-		if (MAX_LEVEL < level) {
-                    process(node);
-                    MAX_LEVEL = level;
-                }
-                printRightView(node.right, level+1);
-                printRightView(node.left, level+1);                
-		
-	}        
-	private void process(Node node) {           
-                System.out.println(node.data);
-	}
-
-	public static void main(String[] args) {
-            /*
-                left view:  5 10 20 45
-                right view: 5 15 35 45
-            */
-		Node root = new Node(5);
-		root.left = new Node(10);   
-		root.right = new Node(15);
-		root.right.left = new Node(30);
-		root.right.right = new Node(35);
-		root.left.left = new Node(20);   
-		root.left.right = new Node(25);                   
-                root.left.right .right= new Node(45);                   
-		PrintRightOrLeftViewofBT p = new PrintRightOrLeftViewofBT();
-                System.out.println("left view :");                
-                //p.printLeftView(root);
-                System.out.println("right view :");                
-                p.printRightView(root);
-	}
+public class Main {
 	
-	static class Node {
-		int data;
-		Node left;
-		Node right;
+    public static List<Integer> rightSideView(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        dfs(root, 0, list);
+        return list;
+    }
 
-		public Node(int data) {
-			this.data = data;
-			left = null;
-			right = null;
-		}
-	}
+    private static void dfs(TreeNode node, int level, List<Integer> list) {
+        if (node == null) {
+            return;
+        }
 
+        if (level == list.size()) {
+            list.add(node.val);
+        }
+
+        dfs(node.right, level + 1, list);
+        dfs(node.left, level + 1, list);
+    }
+
+    public static void printList(List<Integer> list) {
+        for (Integer value : list) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+
+        /*
+                 1              Level 0
+               /   \
+              2     3           Level 1
+             / \   / \
+            4   5 6   7         Level 2
+        */
+
+        TreeNode root = new TreeNode(1);
+
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
+
+        List<Integer> result = rightSideView(root);
+
+        printList(result);
+    }
+
+	static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
 }
