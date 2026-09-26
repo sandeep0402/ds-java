@@ -33,7 +33,6 @@ public class BinaryTreeDiameter {
         return diameter;
     }
  
-
     private static int findMaxLevel(TreeNode node){
         if(node == null){
             return 0;
