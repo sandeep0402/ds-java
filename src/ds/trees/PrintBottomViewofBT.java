@@ -1,47 +1,47 @@
 package ds.trees;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
+/*
+* https://www.naukri.com/code360/problems/bottom-view-of-binary-tree_893110
+*/
 public class PrintBottomViewofBT {
-	private static TreeMap<Integer, Integer> ht = new TreeMap<Integer, Integer>();
 
-	private Node topView(Node root, int level) {
-		// 1. If node is null, return and stop recursion
-		if (root == null)
-			return null;
-		// System.out.println( "Checking level=" + level + ", root.data="+ root.data);
+    public static List<Integer> bottomView(TreeNode root) {
+        Map<Integer, Pair> map = new TreeMap<>();
+        bottomView(root, 0, 0, map);
+        List<Integer> results = new ArrayList<>();
 
-		// Keep updated to have latest variable in map
-		ht.put(level, root.data);
+        for(Pair pair: map.values()){
+            results.add(pair.getval());
+        }
+        return results;
+    }
+    private static void bottomView(TreeNode node, int depth, int column, Map<Integer, Pair> map){
+        if(node == null){
+            return;
+        }
+        Pair old = map.get(column);
+        if(old == null || old.depth <= depth){
+            map.put(column, new Pair(depth, node.val));
+        }
 
-		// After node, process left child first with decreased levels e.g: -1,-2 etc
-		topView(root.left, level - 1);
-		// After processing left child, process right child with increased levels e.g: 1,2 etc
-		topView(root.right, level + 1);
-		return null;
-	}
+        bottomView(node.left, depth+1, column-1, map);
+        bottomView(node.right,depth+1, column+1, map);
+    }
+   
 
-	private void printTop(Node node) {
-		topView(node, 0);
-		Iterator iterator = ht.keySet().iterator();
-		while (iterator.hasNext()) {
-			System.out.println(ht.get(iterator.next()));
-		}
-	}
 
 	public static void main(String[] args) {
-		Node root = new Node(1);
-		root.left = new Node(2);
-		root.right = new Node(3);
-		root.left.left = new Node(4);
-		root.left.left.left = new Node(8);
+		TreeNode root = new TreeNode(1);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(3);
+		root.left.left = new TreeNode(4);
+		root.left.left.left = new TreeNode(8);
 		// root.left.left.right = new Node(10);
-		root.left.right = new Node(5);
-		root.right.right = new Node(7);
-		root.right.left = new Node(11);
+		root.left.right = new TreeNode(5);
+		root.right.right = new TreeNode(7);
+		root.right.left = new TreeNode(11);
 
 		/*
 				7
@@ -70,20 +70,32 @@ public class PrintBottomViewofBT {
 		
 		8	4	2	11	3	7
 		*/
-		PrintBottomViewofBT p = new PrintBottomViewofBT();
-		p.printTop(root);
+		System.out.println(bottomView(root));
 	}
 	
-	static class Node {
-		int data;
-		Node left;
-		Node right;
+	static class TreeNode {
+		int val;
+		TreeNode left;
+		TreeNode right;
 
-		public Node(int data) {
-			this.data = data;
+		public TreeNode(int val) {
+			this.val = val;
 			left = null;
 			right = null;
 		}
 	}
+    
+     static class Pair{
+        private int depth;
+        private int val;
+        Pair(int depth, int val){
+            this.depth = depth;
+            this.val = val;
+        }
+        private int getval(){
+            return val;
+        }
+
+    }
 
 }
