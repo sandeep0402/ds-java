@@ -1,8 +1,27 @@
 package ds.trees;
 
-public class CheckForBST {
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+
+/*
+* https://leetcode.com/problems/validate-binary-search-tree/
+*/
+public class Main {
+	private boolean isBst(Node node, long minVal, long maxVal){
+        if(node == null){
+            return true;
+        }
+        if(node.val <= minVal || node.val >= maxVal ){
+            return false;
+        }
+        return isBst(node.left, minVal, node.val)
+        && isBst(node.right, node.val, maxVal);
+    }
+	
 	public static void main(String[] args) {
-		new CheckForBST().processTree();
+		new Main().processTree();
 	}
 	
 	public void processTree(){
@@ -23,40 +42,15 @@ public class CheckForBST {
 		  d.left=g;
 		  d.right=h;
 		  g.right=i;
-		System.out.println(isBst1(a, Integer.MIN_VALUE, Integer.MAX_VALUE));
-	}
-
-	public boolean isBst1(Node node, int min, int max){
-		if( node == null ){
-			return true;
-		}
-		return (min <= node.value && max >= node.value) 
-                        && isBst1(node.left, min, node.value)
-                        && isBst1(node.right, node.value, max);
+		System.out.println(isBst(a, Integer.MIN_VALUE, Integer.MAX_VALUE));
 	}
         
-	// method 2: do inOrder and check if it is in ascending order
-	// doesnt work in case of duplicates
-        public static Node prevNode = null;
-	public boolean isBST2(Node node) {
-		if (node != null) {
-			if (!isBST2(node.left))
-				return false;
-			if (prevNode != null && prevNode.value >= node.value) {
-				return false;
-			}
-			prevNode = node;
-			return isBST2(node.right);
-		}
-		return true;
-	}
-        
-        class Node {
+   class Node {
 		Node left;
 		Node right;
-		int value;
-		public Node(int value) {
-			this.value = value;
+		int val;
+		public Node(int val) {
+			this.val = val;
 		}
 	}
 }
