@@ -1,7 +1,12 @@
 package ds.trees.advanced;
 
 /*
-    Find k-th smallest element in BST 
+    https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+
+	approach1 is good if you want to avoid class level variables then use the code submitted in leetcode, 
+	where a wrapper class for int is used and passed as reference
+	
+	Find k-th smallest element in BST 
     Use inorder traversal
     http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/
 */
@@ -20,21 +25,7 @@ public class FindKthSmallestElementBST {
                 approach1(node.right, kthIndex);
         }
 
-        private int approach2(Node node, int previousLevel, int kthIndex){
-        	if (node == null) {
-                    return previousLevel;
-                }
-                int leftNodeLevel = approach2(node.left, previousLevel, kthIndex);
-                int nodeLevel = leftNodeLevel + 1;
-                if (kthIndex == nodeLevel) {
-                    process(node);                    
-                }
-                int rightNodeLevel = approach2(node.right, nodeLevel, kthIndex);
-                System.out.println("node :"+node.data +", level="+nodeLevel); 
-
-                // Return the leve which is heigher from node itself or right sub tree 
-		return nodeLevel > rightNodeLevel ? nodeLevel : rightNodeLevel;
-	}
+    
 	private void process(Node node) {           
                 System.out.println(node.data);
 	}
