@@ -21,23 +21,23 @@ public class BinaryTreeDistanceInAnyTwoNodes {
         return (x + y) - 2 * lcaDistance;
     }
 
-    public int Pathlength(Node node, int n1) {
-        int x = 0;
-        if (node != null) {
-            // If current node is the given node, then return 1 as lenght
-            if (node.data == n1){
-                return 1;
-            }
-            // If node found in left tree then path length will be greater than 0
-            x = Pathlength(node.left, n1);
-            if( x > 0){
-                return x+1;
-            }
-            // If node found in right tree then path length will be greater than 0
-            x = Pathlength(node.right, n1);
-            if( x > 0){
-                return x+1;
-            }            
+    public int Pathlength(Node node, int target) {
+        if (node == null) {
+            return 0;
+        }
+    
+        if (node.data == target) {
+            return 1;
+        }
+        // If node found in left tree then path length will be greater than 0
+        int left = pathLength(node.left, target);
+        if (left > 0) {
+            return left + 1;
+        }
+        // If node found in right tree then path length will be greater than 0
+        int right = pathLength(node.right, target);
+        if (right > 0) {
+            return right + 1;
         }
         return 0;
     }
